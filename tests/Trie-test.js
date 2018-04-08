@@ -34,7 +34,6 @@ describe('Trie', () => {
       trie.insert('pram')
       let keys = Object.keys(trie.root.children.p.children.a.children)
 
-// console.log(JSON.stringify(trie, null, 4));
       expect(keys).to.deep.equal(['l', 'n'])
       expect(trie.count).to.equal(4);
     });
@@ -53,7 +52,35 @@ describe('Trie', () => {
 
       expect(trie.count).to.equal(2);
     });
+  });
 
-  });//end describe INSERT
+    describe('SUGGEST', () => {
+      it.only('should return a complete word beginning with the prefix', () => {
+        trie.insert('apart')
+        trie.insert('ape');
+        trie.insert('appear')
+        trie.insert('apple');
+        trie.insert('apples');
+// console.log(JSON.stringify(trie, null, 4));
+        let suggestions = trie.suggest('ap');
+
+        expect(suggestions).to.deep.equal(['apart', 'ape', 'appear', 'apple', 'apples']);
+      })
+    });
+
+    describe('SELECT', () => {
+      it.skip('should increase popularity count of word', () => {
+        trie.select('dog')
+
+        expect(trie.root.children.d.children.o.children.g.popularity).to.equal(1);
+      });
+
+      it.skip('should prioritize words that have been selected', () => {
+          
+      });
+
+
+    });
+
 
 });
