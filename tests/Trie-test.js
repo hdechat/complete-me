@@ -1,5 +1,10 @@
 import { expect } from 'chai';
 import Trie from '../lib/Trie.js';
+import fs from 'fs';
+
+const text = "/usr/share/dict/words"
+const dictionary = fs.readFileSync(text).toString().trim().split('\n')
+
 
 describe('Trie', () => {
   let trie;
@@ -105,6 +110,22 @@ describe('Trie', () => {
         trie.insert('apse');
         wordCount = trie.count;
         expect(wordCount).to.equal(4);
+      });
+    });
+
+    describe('POPULATE', () => {
+      it('should populate with dictionary and not count duplicate words', () => {
+        trie.populate(dictionary);
+
+        let wordCount = trie.count;
+        expect(wordCount).to.equal(234371);
+      });
+
+      it('should use dictionary data to suggest words', ()=> {
+        trie.populate(dictionary);
+        let suggestions = trie.suggest('piz');
+
+        expect(suggestions).to.deep.equal(['pize', 'pizza', 'pizzeria', 'pizzicato', 'pizzle']);
       });
     });
 
