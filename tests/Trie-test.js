@@ -121,11 +121,34 @@ describe('Trie', () => {
         expect(wordCount).to.equal(234371);
       });
 
-      it('should use dictionary data to suggest words', ()=> {
+      it('should use dictionary data to suggest words', () => {
         trie.populate(dictionary);
         let suggestions = trie.suggest('piz');
 
+          expect(suggestions).to.deep.equal(['pize', 'pizza', 'pizzeria', 'pizzicato', 'pizzle']);
+      });
+
+      it('should not add duplicated words in the passed in array', () => {
+        let data = ['A', 'a', 'egg', 'chicken', 'egg', 'rooster'];
+
+        trie.populate(data);
+
+        expect(trie.count).to.equal(4)
+      });
+    });
+
+    describe('DELETE',() => {
+      it('should delete a word from the trie', () =>{
+        trie.populate(dictionary);
+        let suggestions = trie.suggest('piz');
+        
         expect(suggestions).to.deep.equal(['pize', 'pizza', 'pizzeria', 'pizzicato', 'pizzle']);
+
+        trie.delete('pizzle');
+        let suggestions2 = trie.suggest('piz');
+
+        trie.suggest("piz")
+        expect(suggestions2).to.deep.equal(['pize', 'pizza', 'pizzeria', 'pizzicato']);
       });
     });
 
