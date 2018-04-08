@@ -55,13 +55,12 @@ describe('Trie', () => {
   });
 
     describe('SUGGEST', () => {
-      it.only('should return a complete word beginning with the prefix', () => {
-        trie.insert('apart')
+      it('should return a complete word beginning with the prefix', () => {
+        trie.insert('apart');
         trie.insert('ape');
-        trie.insert('appear')
+        trie.insert('appear');
         trie.insert('apple');
         trie.insert('apples');
-// console.log(JSON.stringify(trie, null, 4));
         let suggestions = trie.suggest('ap');
 
         expect(suggestions).to.deep.equal(['apart', 'ape', 'appear', 'apple', 'apples']);
@@ -69,18 +68,30 @@ describe('Trie', () => {
     });
 
     describe('SELECT', () => {
-      it.skip('should increase popularity count of word', () => {
-        trie.select('dog')
+      it('should increase popularity count of word', () => {
+        trie.insert('dog');
+        trie.select('dog');
 
         expect(trie.root.children.d.children.o.children.g.popularity).to.equal(1);
       });
 
-      it.skip('should prioritize words that have been selected', () => {
-          
+      it('should prioritize words that have been selected', () => {
+        trie.insert('apart');
+        trie.insert('ape');
+        trie.insert('appear');
+        trie.insert('apse');
+
+        let suggestions1 = trie.suggest('ap');
+        expect(suggestions1).to.deep.equal(['apart', 'ape', 'appear', 'apse'])
+
+        trie.select('appear');
+        trie.select('appear');
+        trie.select('apse');
+
+        let suggestions2 = trie.suggest('ap');
+        expect(suggestions2).to.deep.equal(['appear', 'apse', 'apart', 'ape'])
       });
-
-
     });
 
-
 });
+// console.log(JSON.stringify(trie, null, 4));
