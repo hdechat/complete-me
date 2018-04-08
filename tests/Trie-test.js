@@ -93,5 +93,20 @@ describe('Trie', () => {
       });
     });
 
+    describe('COUNT', () => {
+      it('should return number of words in Trie', () => {
+        trie.insert('apart');
+        trie.insert('ape');
+
+        let wordCount = trie.count;
+        expect(wordCount).to.equal(2);
+
+        trie.insert('appear');
+        trie.insert('apse');
+        wordCount = trie.count;
+        expect(wordCount).to.equal(4);
+      });
+    });
+
 });
 // console.log(JSON.stringify(trie, null, 4));
