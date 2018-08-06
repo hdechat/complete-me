@@ -56,14 +56,17 @@ class Trie {
     let currNode = this.root.children;
 
     for(let i = 0; i < prefix.length; i++) {
+      if(!currNode[prefix[i]]) {
+        return currNode;
+      }
       currNode = currNode[prefix[i]].children;
     }
 
     let suggestedWords = this.buildWords(currNode);
     let sortedArray = suggestedWords.sort((a,b) => b[1] - a[1]);
     return sortedArray.map(word => word[0]);
-  }      
-
+  }    
+  
   buildWords(currNode, suggestedWords = []) { 
     let keys = Object.keys(currNode);
 
