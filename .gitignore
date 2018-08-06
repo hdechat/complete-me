@@ -1,0 +1,5 @@
+# Optional eslint cache
+.eslintcache
+
+# Dependency directories
+node_modules/
